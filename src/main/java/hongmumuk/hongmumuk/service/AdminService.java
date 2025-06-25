@@ -47,7 +47,7 @@ public class AdminService {
 
         Restaurant restaurant = restaurantOptional.get();
 
-        restaurant.setName(modifyResNameDto.getRestaurantName());
+        restaurant.setRestaurantName(modifyResNameDto.getRestaurantName());
         restaurantRepository.save(restaurant);
 
         return ResponseEntity.ok(Apiresponse.isSuccess(SuccessStatus.OK));
@@ -63,6 +63,7 @@ public class AdminService {
         Restaurant restaurant = restaurantOptional.get();
 
         restaurant.setName(modifyRestaurantDto.getName());
+        restaurant.setRestaurantName(modifyRestaurantDto.getRestaurnatName());
         restaurant.setAddress(modifyRestaurantDto.getAddress());
         restaurant.setFront(modifyRestaurantDto.getFront());
         restaurant.setBack(modifyRestaurantDto.getBack());
