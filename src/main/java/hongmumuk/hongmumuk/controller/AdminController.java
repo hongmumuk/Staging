@@ -32,6 +32,12 @@ public class AdminController {
         return adminService.changeResName(modifyResNameDto);
     }
 
+    @PatchMapping("/modify/allRname")
+    public ResponseEntity<?> changeAllRestaurantName(@RequestBody AdminDto.modifyAllResNameDto modifyAllResNameDto){
+
+        return adminService.changeAllResName(modifyAllResNameDto);
+    }
+
     @DeleteMapping("/delete/restaurant")
     public ResponseEntity<?> deleteRestaurant(@RequestBody AdminDto.deleteRestaurantDto deleteRestaurantDto){
         return adminService.deleteRestaurant(deleteRestaurantDto);

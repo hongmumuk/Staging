@@ -53,6 +53,18 @@ public class AdminService {
         return ResponseEntity.ok(Apiresponse.isSuccess(SuccessStatus.OK));
     }
 
+    public ResponseEntity<?> changeAllResName(AdminDto.modifyAllResNameDto modifyAllResNameDto){
+
+        List<Restaurant> restaurant = restaurantRepository.findAll();
+
+        for (Restaurant r : restaurant) {
+            r.setRestaurantName(modifyAllResNameDto.getRestaurantName());
+            restaurantRepository.save(r);
+        }
+
+        return ResponseEntity.ok(Apiresponse.isSuccess(SuccessStatus.OK));
+    }
+
     public ResponseEntity<?> crudRestaurant(AdminDto.modifyRestaurantDto modifyRestaurantDto){
 
         Optional<Restaurant> restaurantOptional = restaurantRepository.findById(modifyRestaurantDto.getRid());

@@ -51,6 +51,11 @@ public class AdminDto {
         private String restaurantName;
     }
 
+    @Data
+    @Builder
+    public static class modifyAllResNameDto{
+        private String restaurantName;
+    }
 
     @Data
     @Builder

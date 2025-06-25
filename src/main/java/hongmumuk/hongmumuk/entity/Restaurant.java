@@ -19,7 +19,7 @@ public class Restaurant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     // 진짜 레스토랑 이름
-    private String restaurantName = "res_1";
+    private String restaurantName;
     // iOS키 값
     private String name;
     private String address;
