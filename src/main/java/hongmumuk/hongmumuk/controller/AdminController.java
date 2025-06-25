@@ -15,6 +15,11 @@ public class AdminController {
 
     private final AdminService adminService;
 
+    @PostMapping("/add/restaurant")
+    public ResponseEntity<?> addRestaurant(@RequestBody AdminDto.addNewOneDto addNewOneDto){
+        return adminService.addRestaurant(addNewOneDto);
+    }
+
     @PatchMapping("/modify/restaurant")
     public ResponseEntity<?> modifyRestaurant(@RequestBody AdminDto.modifyRestaurantDto modifyRestaurantDto){
 
@@ -35,7 +40,7 @@ public class AdminController {
     @PatchMapping(value = "/add/thumbnail/{rid}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> addThumbnail(@RequestPart MultipartFile multipartFile,
                                           @PathVariable Long rid
-                                          ){
+    ){
         return adminService.addThumbnail(rid, multipartFile);
     }
 
