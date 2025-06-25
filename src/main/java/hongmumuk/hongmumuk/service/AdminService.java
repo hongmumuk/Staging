@@ -47,7 +47,7 @@ public class AdminService {
 
         Restaurant restaurant = restaurantOptional.get();
 
-        restaurant.setName(modifyResNameDto.getName());
+        restaurant.setName(modifyResNameDto.getRestaurantName());
         restaurantRepository.save(restaurant);
 
         return ResponseEntity.ok(Apiresponse.isSuccess(SuccessStatus.OK));

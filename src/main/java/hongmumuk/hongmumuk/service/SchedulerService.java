@@ -82,7 +82,7 @@ public class SchedulerService {
     }
 
     // 매달 1일 00:00에 진행 "0 0 0 1 * *"
-    @Scheduled(cron = "0 0 0 1 * *", zone = "Asia/Seoul" )
+    @Scheduled(cron = "0 15 12 25 * *", zone = "Asia/Seoul" )
     @Transactional
     public void updateAll() {
         // 모든 데이터 지우고 시작
@@ -93,7 +93,7 @@ public class SchedulerService {
         ObjectMapper objectMapper = new ObjectMapper();
 
         for (Restaurant restaurant : restaurantList) {
-            String text = "홍대" + restaurant.getName();
+            String text = restaurant.getRestaurantName() + "홍대";
             String query = URLEncoder.encode(text, StandardCharsets.UTF_8);
             String apiURL = "https://openapi.naver.com/v1/search/blog?query=" + query;
 

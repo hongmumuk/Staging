@@ -46,13 +46,13 @@ public class AdminDto {
     @Builder
     public static class modifyResNameDto{
         private Long rid;
-        private String name;
+        private String restaurantName;
     }
 
     @Data
     @Builder
     public static class addNewOneDto{
-
+        private String restaurantName;
         private String name;
         private String address;
         private Double longitude;

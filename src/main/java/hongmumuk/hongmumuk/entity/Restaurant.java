@@ -17,7 +17,9 @@ public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    // 진짜 레스토랑 이름
+    private String restaurantName;
+    // iOS키 값
     private String name;
     private String address;
     private Integer likes;
@@ -37,8 +39,8 @@ public class Restaurant {
         this.likes = i;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRestaurantName(String restaurantName) {
+        this.restaurantName = restaurantName;
     }
 
     public void setAddress(String address) {
