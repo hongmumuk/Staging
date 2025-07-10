@@ -6,15 +6,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-import java.util.Optional;
-
 @Entity
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Review {
+public class TodayReview {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +23,4 @@ public class Review {
     @ManyToOne(fetch = FetchType.LAZY)
     private Restaurant restaurant;
 
-    private Integer star;
-    private String content;
-    private LocalDate createdDate;
 }
