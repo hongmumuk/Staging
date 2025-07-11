@@ -29,4 +29,5 @@ public class Review {
     private Integer star;
     private String content;
     private LocalDate createdDate;
+
 }
