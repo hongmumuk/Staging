@@ -82,13 +82,13 @@ public class SchedulerService {
     }
 
     // 매달 1일 00:00에 진행 "0 0 0 1 * *"
-    @Scheduled(cron = "0 18 18 11 * *", zone = "Asia/Seoul" )
+    @Scheduled(cron = "0 0 0 1 * *", zone = "Asia/Seoul" )
     @Transactional
     public void updateAll() {
         // 모든 데이터 지우고 시작
         blogRepository.deleteAll();
         // 블로그 정보 가져오기
-
+ß
         List<Restaurant> restaurantList = restaurantRepository.findAll();
         ObjectMapper objectMapper = new ObjectMapper();
 
