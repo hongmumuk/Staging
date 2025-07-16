@@ -28,12 +28,6 @@ public class ReviewDto {
 
     @Data
     @Builder
-    public static class deleteReviewDto{
-        private Long reviewId;
-    }
-
-    @Data
-    @Builder
     public static class availableDto{
         private Long rid; // 식당 id
     }

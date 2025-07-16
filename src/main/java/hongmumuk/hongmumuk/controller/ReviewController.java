@@ -46,9 +46,9 @@ public class ReviewController {
         return reviewService.createReview(email, imageUrls, newReviewDto);
     }
 
-    @DeleteMapping("")
-    public ResponseEntity<?> deleteReview(@RequestBody ReviewDto.deleteReviewDto deleteReviewDto){
-        return reviewService.deleteReview(deleteReviewDto);
+    @DeleteMapping("{reviewId}")
+    public ResponseEntity<?> deleteReview(@PathVariable Long reviewId){
+        return reviewService.deleteReview(reviewId);
     }
 
     @GetMapping("/available/{rid}")
