@@ -9,6 +9,7 @@ import java.util.List;
 @Data
 @Builder
 public class ReviewDto {
+    private Long reviewId;
     private String name;
     private Integer star;
     private String content;
@@ -16,7 +17,45 @@ public class ReviewDto {
     private Long rank;
     private List<String> imageUrls;
 
-    public ReviewDto(String name, int star, String content, LocalDate createdDate, long rank, List<String> imageUrls) {
+    @Data
+    @Builder
+    public static class newReviewDto{
+        private Long rid; // 식당 id
+        private Integer star;
+        private String content;
+        private LocalDate createdDate;
+        private List<String> imageUrls;
+    }
+
+    @Data
+    @Builder
+    public static class deleteReviewDto{
+        private Long reviewId;
+    }
+
+    @Data
+    @Builder
+    public static class availableDto{
+        private Long rid; // 식당 id
+    }
+
+    @Data
+    @Builder
+    public static class myReviewDto{
+        private Long reviewId;
+        private String rname;
+        private String uname;
+        private int star;
+        private String content;
+        private int rank;
+        private String category;
+        private LocalDate createdDate;
+        private List<String> imageUrls;
+
+    }
+
+    public ReviewDto(Long reviewId, String name, int star, String content, LocalDate createdDate, long rank, List<String> imageUrls) {
+        this.reviewId = reviewId;
         this.name = name;
         this.star = star;
         this.content = content;

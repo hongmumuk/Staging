@@ -45,7 +45,7 @@ public class SecurityConfig {
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((auth) -> auth
                                 .requestMatchers("/api/auth/**").permitAll()
-                                .requestMatchers("/api/profile", "/api/profile/*", "/api/restaurant/like", "/api/restaurant/dislike").authenticated()
+                                .requestMatchers("/api/profile", "/api/profile/*", "/api/restaurant/like", "/api/restaurant/dislike, /api/review, /api/review/*, ").authenticated()
                                 .anyRequest().permitAll()
 //                        .requestMatchers("/members/test").hasRole("USER")
 

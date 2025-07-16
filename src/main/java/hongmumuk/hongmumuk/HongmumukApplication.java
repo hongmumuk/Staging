@@ -6,7 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-//@OpenAPIDefinition(servers = {@Server(url = "https://hongmumuk.shop", description = "Default Server url")})
+@OpenAPIDefinition(servers = {@Server(url = "https://hongmumuk.shop", description = "Default Server url")})
 @EnableScheduling
 @SpringBootApplication
 public class HongmumukApplication {

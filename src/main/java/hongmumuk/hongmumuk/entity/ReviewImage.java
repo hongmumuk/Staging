@@ -24,4 +24,11 @@ public class ReviewImage {
 
     private String imageUrl;
 
+    public void setReview(Review review) {
+        this.review = review;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 }

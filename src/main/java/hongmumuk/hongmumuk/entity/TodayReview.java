@@ -23,4 +23,11 @@ public class TodayReview {
     @ManyToOne(fetch = FetchType.LAZY)
     private Restaurant restaurant;
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
 }
