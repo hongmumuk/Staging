@@ -157,8 +157,8 @@ public class ReviewService {
     }
 
     @Transactional
-    public ResponseEntity<?> deleteReview(ReviewDto.deleteReviewDto deleteReviewDto){
-        Optional<Review> reviewOptional = reviewRepository.findById(deleteReviewDto.getReviewId());
+    public ResponseEntity<?> deleteReview(Long reviewId){
+        Optional<Review> reviewOptional = reviewRepository.findById(reviewId);
 
         if(reviewOptional.isEmpty()){
             return ResponseEntity.ok(Apiresponse.isFailed(ErrorStatus.REVIEW_NOT_AVAILABLE));
