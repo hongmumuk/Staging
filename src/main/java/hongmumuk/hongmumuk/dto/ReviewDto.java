@@ -24,7 +24,6 @@ public class ReviewDto {
         private Integer star;
         private String content;
         private LocalDate createdDate;
-        private List<String> imageUrls;
     }
 
     @Data

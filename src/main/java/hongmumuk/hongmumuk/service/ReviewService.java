@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -109,7 +110,7 @@ public class ReviewService {
     }
 
     @Transactional
-    public ResponseEntity<?> createReview(String email, ReviewDto.newReviewDto newReviewDto){
+    public ResponseEntity<?> createReview(String email, List<String> imageUrls, ReviewDto.newReviewDto newReviewDto){
 
         Optional<User> userOptional = userRepository.findByEmail(email);
 
@@ -132,11 +133,11 @@ public class ReviewService {
         review.setStar(newReviewDto.getStar());
         review.setRestaurant(restaurant);
         review.setContent(newReviewDto.getContent());
-        review.setCreatedDate(LocalDate.now());
+        review.setCreatedDate(newReviewDto.getCreatedDate());
 
         reviewRepository.save(review);
 
-        for (String imageUrl : newReviewDto.getImageUrls()) {
+        for (String imageUrl : imageUrls) {
             ReviewImage reviewImage = new ReviewImage();
 
             reviewImage.setReview(review);
