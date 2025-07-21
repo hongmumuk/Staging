@@ -6,6 +6,7 @@ import hongmumuk.hongmumuk.entity.Blog;
 import hongmumuk.hongmumuk.entity.Restaurant;
 import hongmumuk.hongmumuk.repository.BlogRepository;
 import hongmumuk.hongmumuk.repository.RestaurantRepository;
+import hongmumuk.hongmumuk.repository.TodayReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -26,6 +27,7 @@ public class SchedulerService {
 
     private final BlogRepository blogRepository;
     private final RestaurantRepository restaurantRepository;
+    private final TodayReviewRepository todayReviewRepository;
 
     @Value("${CLIENT_ID}")
     private String clientId;
@@ -121,5 +123,10 @@ public class SchedulerService {
                 throw new RuntimeException("JSON 파싱 오류", e);
             }
         }
+    }
+    @Scheduled(cron = "0 0 0 * * *", zone = "Asia/Seoul" )
+    @Transactional
+    public void updateTodayReviewAll() {
+        todayReviewRepository.deleteAll();
     }
 }

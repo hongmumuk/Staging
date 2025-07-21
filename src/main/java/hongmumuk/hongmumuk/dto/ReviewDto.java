@@ -15,6 +15,7 @@ public class ReviewDto {
     private String content;
     private LocalDate createdDate;
     private Long rank;
+    private boolean isMine;
     private List<String> imageUrls;
 
     @Data
@@ -47,13 +48,14 @@ public class ReviewDto {
 
     }
 
-    public ReviewDto(Long reviewId, String name, int star, String content, LocalDate createdDate, long rank, List<String> imageUrls) {
+    public ReviewDto(Long reviewId, String name, int star, String content, LocalDate createdDate, long rank, boolean isMine, List<String> imageUrls) {
         this.reviewId = reviewId;
         this.name = name;
         this.star = star;
         this.content = content;
         this.createdDate = createdDate;
         this.rank = rank;
+        this.isMine = isMine;
         this.imageUrls = imageUrls;
     }
 
