@@ -1,9 +1,9 @@
 package hongmumuk.hongmumuk.service;
 
+import hongmumuk.hongmumuk.common.JwtUtil;
 import hongmumuk.hongmumuk.common.response.Apiresponse;
 import hongmumuk.hongmumuk.common.response.status.ErrorStatus;
 import hongmumuk.hongmumuk.common.response.status.SuccessStatus;
-import hongmumuk.hongmumuk.dto.PageDto;
 import hongmumuk.hongmumuk.dto.ReviewDto;
 import hongmumuk.hongmumuk.dto.ReviewPageDto;
 import hongmumuk.hongmumuk.entity.*;
@@ -16,9 +16,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -34,7 +31,8 @@ public class ReviewService {
     private final TodayReviewRepository todayReviewRepository;
 
     @Transactional
-    public ResponseEntity<?> allReviews(long restaurantId, int page, String sort) {
+    public ResponseEntity<?> allReviews(long restaurantId, int page, String sort, boolean isUser) {
+
         long reviewCount = reviewRepository.countByRestaurantId(restaurantId);
 
         Pageable pageable;
@@ -54,30 +52,26 @@ public class ReviewService {
             return ResponseEntity.ok(Apiresponse.isSuccess(SuccessStatus.OK, emptyResult));
         }
 
-        // 유저 ID 리스트 추출
         List<Long> userIds = reviews.stream()
                 .map(r -> r.getUser().getId())
                 .distinct()
                 .collect(Collectors.toList());
 
-        // 사용자별 리뷰 수 직접 집계 (성능 고려 필요)
         Map<Long, Long> userReviewCounts = new HashMap<>();
         if (!userIds.isEmpty()) {
             List<Review> allReviewsByUsers = reviewRepository.findByUserIdIn(userIds);
-            for (Long userId : userIds) {
+            for (Long userIdVal : userIds) {
                 long count = allReviewsByUsers.stream()
-                        .filter(r -> r.getUser().getId().equals(userId))
+                        .filter(r -> r.getUser().getId().equals(userIdVal))
                         .count();
-                userReviewCounts.put(userId, count);
+                userReviewCounts.put(userIdVal, count);
             }
         }
 
-        // 리뷰 ID 리스트
         List<Long> reviewIds = reviews.stream()
                 .map(Review::getId)
                 .collect(Collectors.toList());
 
-        // 리뷰별 이미지 URL 매핑
         Map<Long, List<String>> imageUrlsByReviewId = new HashMap<>();
         if (!reviewIds.isEmpty()) {
             List<ReviewImage> images = reviewImageRepository.findAllByReviewIdIn(reviewIds);
@@ -88,25 +82,55 @@ public class ReviewService {
             }
         }
 
-        // DTO 변환
-        List<ReviewDto> reviewDtos = reviews.stream().map(r -> {
-            User user = r.getUser();
-            long rank = userReviewCounts.getOrDefault(user.getId(), 0L);
-            List<String> imgUrls = imageUrlsByReviewId.getOrDefault(r.getId(), Collections.emptyList());
+        if (isUser) {
+            String userEmail = JwtUtil.getCurrentUserEmail();
+            Optional<User> userId = userRepository.findByEmail(userEmail);
+            if(userId.isEmpty()){
+                return ResponseEntity.ok(Apiresponse.isFailed(ErrorStatus.UNKNOWN_USER_ERROR));
+            }
 
-            return new ReviewDto(
-                    r.getId(),
-                    user.getNickName(),
-                    r.getStar(),
-                    r.getContent(),
-                    r.getCreatedDate(),
-                    rank,
-                    imgUrls
-            );
-        }).collect(Collectors.toList());
+            User currentUser = userId.get();
+            List<ReviewDto> reviewDtos = reviews.stream().map(r -> {
+                User user = r.getUser();
+                long rank = userReviewCounts.getOrDefault(user.getId(), 0L);
+                List<String> imgUrls = imageUrlsByReviewId.getOrDefault(r.getId(), Collections.emptyList());
+                boolean isMine = currentUser.getId().equals(user.getId());
 
-        ReviewPageDto result = new ReviewPageDto(reviewCount, reviewDtos);
-        return ResponseEntity.ok(Apiresponse.isSuccess(SuccessStatus.OK, result));
+                return new ReviewDto(
+                        r.getId(),
+                        user.getNickName(),
+                        r.getStar(),
+                        r.getContent(),
+                        r.getCreatedDate(),
+                        rank,
+                        isMine,
+                        imgUrls
+                );
+            }).collect(Collectors.toList());
+            ReviewPageDto result = new ReviewPageDto(reviewCount, reviewDtos);
+            return ResponseEntity.ok(Apiresponse.isSuccess(SuccessStatus.OK, result));
+        }
+        else {
+            List<ReviewDto> reviewDtos = reviews.stream().map(r -> {
+                User user = r.getUser();
+                long rank = userReviewCounts.getOrDefault(user.getId(), 0L);
+                List<String> imgUrls = imageUrlsByReviewId.getOrDefault(r.getId(), Collections.emptyList());
+                boolean isMine = false;
+
+                return new ReviewDto(
+                        r.getId(),
+                        user.getNickName(),
+                        r.getStar(),
+                        r.getContent(),
+                        r.getCreatedDate(),
+                        rank,
+                        isMine,
+                        imgUrls
+                );
+            }).collect(Collectors.toList());
+            ReviewPageDto result = new ReviewPageDto(reviewCount, reviewDtos);
+            return ResponseEntity.ok(Apiresponse.isSuccess(SuccessStatus.OK, result));
+        }
     }
 
     @Transactional

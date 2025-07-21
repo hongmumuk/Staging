@@ -28,8 +28,8 @@ public class ReviewController {
     private final S3Service s3Service;
 
     @GetMapping("")
-    public ResponseEntity<?> allReviews(@RequestParam int restaurantId, @RequestParam int page, @RequestParam String sort) {
-        return reviewService.allReviews(restaurantId, page, sort);
+    public ResponseEntity<?> allReviews(@RequestParam int restaurantId, @RequestParam int page, @RequestParam String sort, @RequestParam boolean isUser) {
+        return reviewService.allReviews(restaurantId, page, sort, isUser);
     }
 
     @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
