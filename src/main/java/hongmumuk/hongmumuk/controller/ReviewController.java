@@ -39,8 +39,11 @@ public class ReviewController {
         String email = JwtUtil.getCurrentUserEmail();
 
         List<String> imageUrls = new ArrayList<>();
-        for (MultipartFile file : multipartFiles) {
-            imageUrls.add(s3Service.uploadFile(file));
+
+        if(multipartFiles != null){
+            for (MultipartFile file : multipartFiles) {
+                imageUrls.add(s3Service.uploadFile(file));
+            }
         }
 
         return reviewService.createReview(email, imageUrls, newReviewDto);
