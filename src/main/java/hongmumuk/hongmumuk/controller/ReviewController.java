@@ -33,7 +33,7 @@ public class ReviewController {
     }
 
     @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> createReview(@RequestPart MultipartFile[] multipartFiles,
+    public ResponseEntity<?> createReview(@RequestPart(required = false) MultipartFile[] multipartFiles,
                                           @RequestPart ReviewDto.newReviewDto newReviewDto
                                           ){
         String email = JwtUtil.getCurrentUserEmail();

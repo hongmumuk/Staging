@@ -16,6 +16,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -157,7 +159,7 @@ public class ReviewService {
         review.setStar(newReviewDto.getStar());
         review.setRestaurant(restaurant);
         review.setContent(newReviewDto.getContent());
-        review.setCreatedDate(newReviewDto.getCreatedDate());
+        review.setCreatedDate(LocalDate.now());
 
         reviewRepository.save(review);
 
