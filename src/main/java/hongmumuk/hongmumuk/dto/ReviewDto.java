@@ -24,7 +24,6 @@ public class ReviewDto {
         private Long rid; // 식당 id
         private Integer star;
         private String content;
-        private LocalDate createdDate;
     }
 
     @Data
