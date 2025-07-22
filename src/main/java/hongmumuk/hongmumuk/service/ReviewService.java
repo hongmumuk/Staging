@@ -163,23 +163,35 @@ public class ReviewService {
 
         reviewRepository.save(review);
 
-        for (String imageUrl : imageUrls) {
-            ReviewImage reviewImage = new ReviewImage();
+        if(imageUrls.isEmpty()){
+            TodayReview todayReview = new TodayReview();
 
-            reviewImage.setReview(review);
-            reviewImage.setImageUrl(imageUrl);
+            todayReview.setUser(user);
+            todayReview.setRestaurant(restaurant);
 
-            reviewImageRepository.save(reviewImage);
+            todayReviewRepository.save(todayReview);
+
+            return ResponseEntity.ok(Apiresponse.isSuccess(SuccessStatus.CREATED));
         }
+        else{
+            for (String imageUrl : imageUrls) {
+                ReviewImage reviewImage = new ReviewImage();
 
-        TodayReview todayReview = new TodayReview();
+                reviewImage.setReview(review);
+                reviewImage.setImageUrl(imageUrl);
 
-        todayReview.setUser(user);
-        todayReview.setRestaurant(restaurant);
+                reviewImageRepository.save(reviewImage);
+            }
 
-        todayReviewRepository.save(todayReview);
+            TodayReview todayReview = new TodayReview();
 
-    return ResponseEntity.ok(Apiresponse.isSuccess(SuccessStatus.CREATED));
+            todayReview.setUser(user);
+            todayReview.setRestaurant(restaurant);
+
+            todayReviewRepository.save(todayReview);
+
+            return ResponseEntity.ok(Apiresponse.isSuccess(SuccessStatus.CREATED));
+        }
     }
 
     @Transactional
