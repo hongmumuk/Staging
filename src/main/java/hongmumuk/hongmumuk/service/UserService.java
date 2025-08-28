@@ -432,6 +432,7 @@ public class UserService {
 
             ReviewDto.myReviewDto myReviewDto = ReviewDto.myReviewDto.builder()
                     .reviewId(review.getId())
+                    .rid(review.getRestaurant().getId())
                     .rname(review.getRestaurant().getName())
                     .uname(review.getUser().getNickName())
                     .star(review.getStar())

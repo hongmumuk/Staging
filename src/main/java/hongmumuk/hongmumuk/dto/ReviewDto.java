@@ -36,6 +36,7 @@ public class ReviewDto {
     @Builder
     public static class myReviewDto{
         private Long reviewId;
+        private Long rid; // 식당 id
         private String rname;
         private String uname;
         private int star;
